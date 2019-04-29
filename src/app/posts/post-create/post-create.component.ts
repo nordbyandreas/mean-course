@@ -2,6 +2,10 @@
 
 import {Component} from '@angular/core';
 
+import {NgForm} from '@angular/forms';
+
+import {PostsService} from '../posts.service';
+
 @Component({
   selector: 'app-post-create',
   templateUrl: './post-create.component.html',
@@ -9,14 +13,23 @@ import {Component} from '@angular/core';
 
 })
 export class PostCreateComponent{
-  enteredValue = '';
-  newPost = '';
+  enteredTitle = '';
+  enteredContent = '';
+
+  constructor(public postsService: PostsService){}
 
 
+  onAddPost(form: NgForm) {
 
-  onAddPost(){
-    this.newPost = this.enteredValue;
+    if (form.invalid) {
+
+      return;
+    }
+
+    this.postsService.addPost(form.value.title, form.value.content);
+    form.reset();
   }
+
 
 }
 
